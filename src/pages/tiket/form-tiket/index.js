@@ -106,7 +106,7 @@ class FormPenugasan extends Component {
                     return resp.json();
                 })
                 .then((json) => {
-                    fetch("http://localhost:8080/api/tiket/change-status/TKT0001",{
+                    fetch("http://localhost:8080/api/tiket/change-status/"+dataTiket.idTiket,{
                         method : "PUT",
                         body : JSON.stringify(inputTiket),
                         headers: {
