@@ -5,8 +5,9 @@ import {Input,Textarea, Label, Select, FormField} from "../../../components/form
 import Button from '../../../components/button';
 import Tr from "../../../components/table_row";
 import { Link } from 'react-router-dom';
+import { connect } from "react-redux";
 
-class TableTeknisi extends Component {
+class TiketUser extends Component {
     constructor(props) {
         super(props);
         this.state = {  
@@ -16,7 +17,7 @@ class TableTeknisi extends Component {
             currPage : 1,
             jumlah : 0,
             page : 0,
-            dataUser : [],
+            data : [],
             startRow : 1,
             maxRow : 5
         }
@@ -35,7 +36,7 @@ class TableTeknisi extends Component {
 
     deleteFunc = (id)=>{
         if(window.confirm("apakah Anda yakin ingin menghapus data ini ?")){
-            fetch("http://localhost:8080/api/users/delete/"+id, {
+            fetch("http://localhost:8080/api/tiket/delete/"+id, {
                 method : "DELETE"
             })
             .then(resp => {
@@ -57,12 +58,11 @@ class TableTeknisi extends Component {
     }
 
     editFunc = (id)=>{
-        console.log(id);
-        this.props.history.push("/form-teknisi/"+id)
+        this.props.history.push("/form-penugasan/"+id)
     }
 
     tambahButton = () => {
-        this.props.history.push("/form-teknisi");
+        this.props.history.push("/tambah-tiket");
     }
 
     searchFunc = (el) => {
@@ -73,7 +73,6 @@ class TableTeknisi extends Component {
         }, () => {
             this.getData();
         })
-        // this.getData(`http://localhost:8080/api/users?search=${el.target.value}&limit=${limit}&offset=${offset}`)
     }
 
     filterLimit = (el) =>{
@@ -90,7 +89,7 @@ class TableTeknisi extends Component {
 
     getData = () => {
         const {search, limit, offset, currPage, maxRow, page, startRow} = this.state
-        let url = `http://localhost:8080/api/users?role=Teknisi&limit=${limit}&offset=${offset}`;
+        let url = `http://localhost:8080/api/tiket?idUser=${this.props.auth.dataLogin.idUser}&limit=${limit}&offset=${offset}`;
         if (search != "") {
             url += `&search=${search}`;
         }
@@ -112,7 +111,7 @@ class TableTeknisi extends Component {
                 }
             }
             this.setState({
-                dataUser : json.data,
+                data : json.data,
                 jumlah : json.jumlah,
                 page : Math.ceil(json.jumlah/this.state.limit),
                 startRow : start
@@ -137,23 +136,24 @@ class TableTeknisi extends Component {
     // ------------END FUNCTION---------------
 
     render() { 
-        const {search, dataUser, limit, startRow, maxRow, page} = this.state;
+        const {search, data, limit, startRow, maxRow, page} = this.state;
         let dataTable;
         let pages = [];
-        if(dataUser.length < 1){
+        if(data.length < 1){
             dataTable = (
                 <tr key={1}>
-                    <td colSpan="5">Data tidak tersedia</td>
+                    <td colSpan="6">Data tidak tersedia</td>
                 </tr>
             )
         }else{
-            dataTable = dataUser.map((el, indx) => {
+            dataTable = data.map((el, indx) => {
                 return(
-                    <Tr key={indx} id={el.idUser} delFunc={this.deleteFunc} editFunc={this.editFunc}>
-                        <td>{el.idUser}</td>
-                        <td>{el.nama}</td>
-                        <td>{el.username}</td>
-                        <td>{el.role}</td>
+                    <Tr key={indx} id={el.idTiket} type={el.status == "Pending" ? "edited" : "notAssignTiket"} delFunc={this.deleteFunc} editFunc={this.editFunc}>
+                        <td>{el.idTiket}</td>
+                        <td>{el.problemDesc}</td>
+                        <td>{el.status}</td>
+                        <td>{el.user.nama}</td>
+                        <td>{el.createdDate}</td>
                     </Tr>
                 )
             })
@@ -170,7 +170,7 @@ class TableTeknisi extends Component {
         return (  
             <div className="table-user">
                 <div className="judul">
-                    Tabel Teknisi
+                    Tabel Tiket
                 </div>
                 <div className="header-table">
                     <div className="search-section">
@@ -184,9 +184,7 @@ class TableTeknisi extends Component {
                         }}/>
                     </div>
                     <div className="button-tambah">
-                            <Button class="btn btn-hijau tambah" funcClick={this.tambahButton}>Tambah data Teknisi</Button>
-                        {/* <Link to="/tambah">
-                        </Link> */}
+                            <Button class="btn btn-hijau tambah" funcClick={this.tambahButton}>Tambah data Tiket</Button>
                     </div>
                 </div>
                 <div className="search-section">
@@ -216,9 +214,10 @@ class TableTeknisi extends Component {
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Nama</th>
-                            <th>Username</th>
-                            <th>Role</th>
+                            <th>Problem</th>
+                            <th>Status</th>
+                            <th>Nama Pemohon</th>
+                            <th>Tanggal Permohonan</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -237,5 +236,11 @@ class TableTeknisi extends Component {
         );
     }
 }
+
+const mapStateToProps = state => {
+    return{
+        auth : state.AuthReducer
+    }
+}
  
-export default TableTeknisi;
+export default connect(mapStateToProps)(TiketUser);

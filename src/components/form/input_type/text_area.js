@@ -7,14 +7,14 @@ class Input extends Component {
     }
 
     handleChange = (el) => {
-        this.props.funcSet(el.target.name, el.target.value);
+        this.props.funcSet(el);
     }
     
     render() { 
         const value = this.props
         // console.log(value.value)
         return ( 
-            <textarea rows={value.inputRows} onChange={this.handleChange} className="form-input" name={value.inputname} value={value.value} placeholder={value.inputPc}></textarea>   
+            <textarea rows={value.inputRows} onChange={this.handleChange} className={this.class} name={value.inputname} value={value.value} placeholder={value.inputPc}></textarea>   
         );
     }
 }

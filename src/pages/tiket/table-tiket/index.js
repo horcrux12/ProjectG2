@@ -115,7 +115,6 @@ class TabelTiket extends Component {
                 page : Math.ceil(json.jumlah/this.state.limit),
                 startRow : start
             }, () => {
-                console.log(this.state);
             });
         })
         .catch(e => {
@@ -148,7 +147,7 @@ class TabelTiket extends Component {
         }else{
             dataTable = data.map((el, indx) => {
                 return(
-                    <Tr key={indx} id={el.idTiket} type="assignTiket" delFunc={this.deleteFunc} editFunc={this.assignFunc}>
+                    <Tr key={indx} id={el.idTiket} type={el.status == "Pending" ? "assignTiket" : "notAssignTiket"} delFunc={this.deleteFunc} editFunc={this.assignFunc}>
                         <td>{el.idTiket}</td>
                         <td>{el.problemDesc}</td>
                         <td>{el.status}</td>

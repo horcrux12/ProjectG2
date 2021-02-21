@@ -28,6 +28,15 @@ class Tr extends Component {
                     </td>
                 </tr>
             )
+        }else if(data.type == "notAssignTiket"){
+            return(
+                <tr>
+                    {this.props.children}
+                    <td>
+                        On Progress
+                    </td>
+                </tr>
+            )
         }
         return ( 
             <tr>

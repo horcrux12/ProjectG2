@@ -32,6 +32,23 @@ class SideBar extends Component {
                 }
             ]
         }
+
+        if (auth.dataLogin.role == "User") {
+            sidebarItem = [
+                {
+                    name : "Home",
+                    path : "/",
+                },
+                {
+                    name : "Tiket",
+                    path : "/table-tiket",
+                },
+                {
+                    name : "Profile",
+                    path : "/profile"
+                }
+            ]
+        }
         
         return (  
             <div className="sidebar">

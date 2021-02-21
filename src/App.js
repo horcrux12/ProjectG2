@@ -4,7 +4,8 @@ import { connect } from "react-redux";
 
 import { FormTeknisi, FormUser, Homepage,
    Login, TableTeknisi, TableUser, TabelTiket,
-   FormPenugasan } from "./pages";
+   FormPenugasan, Page404 } from "./pages";
+import { TiketUser, FormTiketUser } from "./pages/user-page";
 import { Main } from "./templates";
 import Action from "./action";
 import { Body, Menu, SideBar } from "./templates/component";
@@ -28,8 +29,110 @@ class App extends Component {
     )
   }
 
+  pages = () => {
+    if (this.props.auth.dataLogin.role == "Admin") {
+      return (
+        <div>
+          
+        </div>  
+      )
+    }
+  }
+
+
   render() { 
-    
+
+    let pages = [];
+    if(this.props.auth.dataLogin.role == "Admin"){
+      pages.push(<Route path="/table-user" exact component={
+        (props) => {
+          let history = useHistory();
+          return(
+            this.template(props, <TableUser history={history}/>)
+          )
+        }
+      }/>)
+      pages.push(<Route path="/form-user/" exact component={
+        (props) => {
+          let history = useHistory();
+          return(
+            this.template(props, <FormUser history={history}/>)
+          )
+        }
+      }/>)
+      pages.push(<Route path="/form-user/:id" exact component={
+        (props) => {
+          let history = useHistory();
+          const { id } = useParams()
+          return(
+            this.template(props, <FormUser id={id} history={history}/>)
+          )
+        }
+      }/>)
+      pages.push(<Route path="/table-teknisi" exact component={
+        (props) => {
+          let history = useHistory();
+          return(
+            this.template(props, <TableTeknisi history={history}/>)
+          )
+        }
+      }/>)
+      pages.push(<Route path="/form-teknisi/" exact component={
+        (props) => {
+          let history = useHistory();
+          return(
+            this.template(props, <FormTeknisi history={history}/>)
+          )
+        }
+      }/>)
+      pages.push(<Route path="/form-teknisi/:id" exact component={
+        (props) => {
+          let history = useHistory();
+          const { id } = useParams();
+          return(
+            this.template(props, <FormTeknisi id={id} history={history}/>)
+          )
+        }
+      }/>)
+
+      pages.push(<Route path="/table-tiket" exact component={
+        (props) => {
+          let history = useHistory();
+          return(
+            this.template(props, <TabelTiket history={history}/>)
+          )
+        }
+      }/>)
+
+      pages.push(<Route path="/form-penugasan/:id" exact component={
+          (props) => {
+            let history = useHistory();
+            const { id } = useParams();
+            return(
+              this.template(props, <FormPenugasan history={history} id={id}/>)
+            )
+          }
+        }/>)
+    }
+
+    if(this.props.auth.dataLogin.role == "User"){
+      pages.push(<Route path="/table-tiket" exact component={
+        (props) => {
+          let history = useHistory();
+          return(
+            this.template(props, <TiketUser history={history}/>)
+          )
+        }
+      }/>)
+      pages.push(<Route path="/tambah-tiket" exact component={
+        (props)=>{
+          let history = useHistory();
+          return(
+            this.template(props, <FormTiketUser history={history}/>)
+          )
+        }
+      }/>)
+    }  
     return (  
       <>
         <Router>
@@ -43,89 +146,17 @@ class App extends Component {
                 )
               }
             }/>
-            {/* User sessions */}
-            <Route path="/table-user" exact component={
-              (props) => {
-                let history = useHistory();
-                return(
-                  this.template(props, <TableUser history={history}/>)
-                )
-              }
-            }/>
-            <Route path="/form-user/" exact component={
-              (props) => {
-                let history = useHistory();
-                return(
-                  this.template(props, <FormUser history={history}/>)
-                )
-              }
-            }/>
-            <Route path="/form-user/:id" exact component={
-              (props) => {
-                let history = useHistory();
-                const { id } = useParams()
-                return(
-                  this.template(props, <FormUser id={id} history={history}/>)
-                )
-              }
-            }/>
-            {/* User Sessions */}
-            {/* Teknisi Sessions */}
-            <Route path="/table-teknisi" exact component={
-              (props) => {
-                let history = useHistory();
-                return(
-                  this.template(props, <TableTeknisi history={history}/>)
-                )
-              }
-            }/>
-            <Route path="/form-teknisi/" exact component={
-              (props) => {
-                let history = useHistory();
-                return(
-                  this.template(props, <FormTeknisi history={history}/>)
-                )
-              }
-            }/>
-            <Route path="/form-teknisi/:id" exact component={
-              (props) => {
-                let history = useHistory();
-                const { id } = useParams();
-                return(
-                  this.template(props, <FormTeknisi id={id} history={history}/>)
-                )
-              }
-            }/>
-            {/* Teknisi Sessions */}
-            {/* Tiket Sessions */}
 
-            <Route path="/table-tiket" exact component={
-              (props) => {
-                let history = useHistory();
-                return(
-                  this.template(props, <TabelTiket history={history}/>)
-                )
-              }
-            }/>
-
-            <Route path="/form-penugasan/:id" exact component={
-                (props) => {
-                  let history = useHistory();
-                  const { id } = useParams();
-                  return(
-                    this.template(props, <FormPenugasan history={history} id={id}/>)
-                  )
-                }
-              }/>
-
-            {/* Tiket Sessions */}
-
+            {pages}
+            
             <Route path="/login" exact component={
               () => {
                 let history = useHistory();
                 return(<Login history={history}/>)
               }
             }/>
+
+            <Route component={Page404}/>
           </Switch>
         </Router>
       </>

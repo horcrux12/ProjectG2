@@ -18,6 +18,7 @@ class FormPenugasan extends Component {
     }
 
     componentDidMount (){
+
         fetch("http://localhost:8080/api/teknisi",{
             method : "GET",
             headers: {"Content-type": "application/json; charset=UTF-8"}
@@ -86,6 +87,10 @@ class FormPenugasan extends Component {
             ]
         }
 
+        let inputTiket = {
+            status : "In Action"
+        }
+
         if (idTeknisi.value != "") {
             fetch("http://localhost:8080/api/penanganan/create", {
                     method : "POST",
@@ -101,13 +106,26 @@ class FormPenugasan extends Component {
                     return resp.json();
                 })
                 .then((json) => {
-                    alert(json.messages);
-                    this.clearForm();
-                    this.props.history.push("/table-tiket");
-                })
-                .catch((status) => {
-                    alert(status)
-                })
+                    fetch("http://localhost:8080/api/tiket/change-status/TKT0001",{
+                        method : "PUT",
+                        body : JSON.stringify(inputTiket),
+                        headers: {
+                            "Content-type": "application/json; charset=UTF-8"
+                        }
+                    })
+                    .then(resp => {
+                        if (!resp.ok) {
+                            return resp.json().then(text => {
+                                throw new Error(`${text.messages}`);
+                            })
+                        }
+                        return resp.json();
+                    })
+                    .then(json => {alert(json.messages); this.props.history.push("/table-tiket")})
+                    .catch((status) => { alert(status) })
+                }).catch((status) => { alert(status) })
+
+                
         }else{
             alert("Harap isi semua kolom form dengan benar!!");
         }
@@ -161,7 +179,7 @@ class FormPenugasan extends Component {
                             optionElement={[
                                 {
                                     optionVal: "",
-                                    textOption: "Pilih Role",
+                                    textOption: "Pilih Teknisi",
                                 },
                                 ...dataSelect
                             ]}

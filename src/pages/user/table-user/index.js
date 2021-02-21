@@ -35,7 +35,7 @@ class TableUser extends Component {
 
     deleteFunc = (id)=>{
         if(window.confirm("apakah Anda yakin ingin menghapus data ini ?")){
-            fetch("http://localhost:8080/api/users/delete/"+id, {
+            fetch("http://localhost:8080/api/tiket/delete/"+id, {
                 method : "DELETE"
             })
             .then(resp => {
@@ -51,7 +51,7 @@ class TableUser extends Component {
                 this.getData();
             })
             .catch(e => {
-                alert("Gagal mengambil data")
+                alert(e)
             });
         }
     }
@@ -116,7 +116,6 @@ class TableUser extends Component {
                 page : Math.ceil(json.jumlah/this.state.limit),
                 startRow : start
             }, () => {
-                console.log(this.state);
             });
         })
         .catch(e => {
