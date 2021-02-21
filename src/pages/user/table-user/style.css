@@ -1,0 +1,72 @@
+.table-user{
+    display: flex;
+    width: 90%;
+    height: 90%;
+    margin: auto;
+    flex-direction: column;
+    padding-top: 30px;
+}
+
+.table-user .judul{
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.table-user .header-table{
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+}
+
+.search-section{
+    flex-grow: 3;
+    display: flex;
+    flex-direction: row;
+}
+
+.search-section .label-search{
+    width: 15%;
+    margin: auto;
+}
+
+.button-tambah{
+    flex-grow: 7;
+}
+
+.table-user .field-form{
+    width: 85%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.table-user .button-tambah{
+    margin: auto;
+}
+
+.button-tambah .tambah{
+    float: right;
+}
+
+.pagination {
+    display: inline-block;
+    margin-top: 2vh;
+}
+
+.pagination button {
+    color: black;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    border: none;
+}
+
+.pagination button.active {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.pagination button:focus{
+    outline: none;
+}

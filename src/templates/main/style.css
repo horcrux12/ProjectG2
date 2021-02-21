@@ -1,0 +1,102 @@
+.main {
+    position: relative;
+    top: 0;
+    height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+  .main .sidebar {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    max-height: 100%;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 1031;
+    width: 300px;
+    background-color: #f1f1f1;
+    position: fixed;
+    overflow: auto;
+  }
+
+  .main .sidebar .icon-web{
+      background-color: black;
+      height: 90px;
+      font-size: 40px;
+      color: #f1f1f1;
+      text-align: center;
+      padding: 20px 0;
+      font-weight: 600;
+  }
+  
+  .main .sidebar a {
+    display: block;
+    color: black;
+    padding: 16px;
+    text-decoration: none;
+  }
+   
+  .main .sidebar a.active {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .main .sidebar a:hover:not(.active) {
+    background-color: #555;
+    color: white;
+  }
+  
+  .main div.content {
+      position: relative;
+      float: right;
+    width: calc(100% - 300px);
+    height: 100%;
+    max-height: 100%;
+  }
+
+  .main div.content .menu{
+    height: 50px;
+    background-color: black;
+  }
+
+  .main div.content .menu .icon-logout{
+    text-align: right;
+    color: white;
+    background-color: transparent;
+    border: none;
+    padding: 18px;
+    float: right;
+    font-size: 13px;
+    text-transform: capitalize;
+  }
+
+  .main div.content .menu .icon-logout:hover{
+    background-color: #e7e7e7;
+    color: black;
+  }
+
+  .main div.content .menu .icon-logout:focus{
+    outline: none;
+  }
+
+  .main .main-content{
+    padding: 20px;
+  }
+  
+  @media screen and (max-width: 700px) {
+    .main .sidebar {
+      width: 100%;
+      height: auto;
+      position: relative;
+    }
+    .main .sidebar a {float: left;}
+    .main div.content {margin-left: 0;}
+  }
+  
+  @media screen and (max-width: 400px) {
+    .main .sidebar a {
+      text-align: center;
+      float: none;
+    }
+  }
