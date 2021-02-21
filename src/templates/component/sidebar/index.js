@@ -45,7 +45,24 @@ class SideBar extends Component {
                 },
                 {
                     name : "Profile",
-                    path : "/profile"
+                    path : "/profile/"+this.props.auth.dataLogin.idUser
+                }
+            ]
+        }
+
+        if (auth.dataLogin.role == "Teknisi") {
+            sidebarItem = [
+                {
+                    name : "Home",
+                    path : "/",
+                },
+                {
+                    name : "Profile",
+                    path : "/profile/"+this.props.auth.dataLogin.idUser
+                },
+                {
+                    name : "Tiket",
+                    path : "/tiket-teknisi",
                 }
             ]
         }

@@ -18,7 +18,7 @@ class FormTiketUser extends Component {
 
     componentDidMount (){
         if (this.props.id) {
-            fetch("http://localhost:8080/api/users?idUser="+this.props.id, {
+            fetch("http://localhost:8080/api/tiket?idTiket="+this.props.id, {
             method : "GET",
             headers: {"Content-type": "application/json; charset=UTF-8"}
         })
@@ -33,9 +33,7 @@ class FormTiketUser extends Component {
         .then((json) => {
 
             this.setState({
-                username : {...this.state.username, value : json.data[0].username},
-                nama : {...this.state.nama, value : json.data[0].nama},
-                role : {...this.state.role, value : json.data[0].role},
+                problemDesc : {...this.state.problemDesc, value : json.data[0].problemDesc}
             })
         })
         .catch((status) => {
@@ -67,7 +65,7 @@ class FormTiketUser extends Component {
 
         if (problemDesc.value.trim().length > 0) {
             if (this.props.id) {
-                fetch("http://localhost:8080/api/users/update/"+this.props.id, {
+                fetch("http://localhost:8080/api/tiket/update/"+this.props.id, {
                     method : "PUT",
                     body : JSON.stringify(dataInput),
                     headers: {"Content-type": "application/json; charset=UTF-8"}
@@ -83,7 +81,7 @@ class FormTiketUser extends Component {
                 .then((json) => {
                     alert(json.messages);
                     this.clearForm();
-                    this.props.history.push("/table-user");
+                    this.props.history.push("/table-tiket");
                 })
                 .catch((status) => {
                     alert(status)
@@ -149,7 +147,7 @@ class FormTiketUser extends Component {
                             display : problemDesc.validation,
                         }}> Field tidak boleh kosong !!</small>
                     <button className="btn btn-hijau" onClick={this.onSubmitHandler}>Submit</button>
-                    <Button class="btn btn-kuning" funcClick={() => {this.props.history.push("/table-user")}}>Cencel</Button>
+                    <Button class="btn btn-kuning" funcClick={() => {this.props.history.push("/table-tiket")}}>Cencel</Button>
                 </div>
             </div>
         );

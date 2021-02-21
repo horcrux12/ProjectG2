@@ -11,6 +11,7 @@ class Menu extends Component {
 
     logout = () => {
         this.props.doLogout()
+        this.props.properties.history.push("/login")
     }
 
     render() { 

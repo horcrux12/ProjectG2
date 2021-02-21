@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 
 import { FormTeknisi, FormUser, Homepage,
    Login, TableTeknisi, TableUser, TabelTiket,
-   FormPenugasan, Page404 } from "./pages";
+   FormPenugasan, Page404, Profil } from "./pages";
 import { TiketUser, FormTiketUser } from "./pages/user-page";
 import { Main } from "./templates";
 import Action from "./action";
@@ -22,7 +22,7 @@ class App extends Component {
       <div className="main">
           <SideBar properties={properties}/>
           <div className="content">
-              <Menu/>
+              <Menu properties={properties}/>
               <Body statusLogin={this.props.auth.statusLogin} properties={properties} comp={component}/>
           </div>
       </div>
@@ -63,7 +63,7 @@ class App extends Component {
       pages.push(<Route path="/form-user/:id" exact component={
         (props) => {
           let history = useHistory();
-          const { id } = useParams()
+          const { id } = useParams();
           return(
             this.template(props, <FormUser id={id} history={history}/>)
           )
@@ -132,7 +132,37 @@ class App extends Component {
           )
         }
       }/>)
-    }  
+      pages.push(<Route path="/edit-tiket/:id" exact component={
+        (props)=>{
+          const { id } = useParams();
+          let history = useHistory();
+          return(
+            this.template(props, <FormTiketUser id={id} history={history}/>)
+          )
+        }
+      }/>)
+      pages.push(<Route path="/profile/:id" exact component={
+        (props)=>{
+          const { id } = useParams();
+          let history = useHistory();
+          return(
+            this.template(props, <Profil id={id} dataLogin={this.props.auth.dataLogin} history={history}/>)
+          )
+        }
+      }/>)
+    }
+    
+    if(this.props.auth.dataLogin.role == "Teknisi"){
+      pages.push(<Route path="/profile/:id" exact component={
+        (props)=>{
+          const { id } = useParams();
+          let history = useHistory();
+          return(
+            this.template(props, <Profil id={id} dataLogin={this.props.auth.dataLogin} history={history}/>)
+          )
+        }
+      }/>)
+    }
     return (  
       <>
         <Router>

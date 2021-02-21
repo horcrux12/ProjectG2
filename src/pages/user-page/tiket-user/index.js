@@ -58,7 +58,7 @@ class TiketUser extends Component {
     }
 
     editFunc = (id)=>{
-        this.props.history.push("/form-penugasan/"+id)
+        this.props.history.push("/edit-tiket/"+id)
     }
 
     tambahButton = () => {
