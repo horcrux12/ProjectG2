@@ -1,0 +1,338 @@
+{
+	"info": {
+		"_postman_id": "03921d10-12a1-49d9-860d-55b841b050a4",
+		"name": "helpdesk",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Get User",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8080/api/users?search=1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"users"
+							],
+							"query": [
+								{
+									"key": "idUser",
+									"value": "USR0002",
+									"disabled": true
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"disabled": true
+								},
+								{
+									"key": "password",
+									"value": "Userpass1!",
+									"disabled": true
+								},
+								{
+									"key": "nama",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "role",
+									"value": null,
+									"disabled": true
+								},
+								{
+									"key": "search",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "offset",
+									"value": "0",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"admins\",\r\n    \"password\": \"TeknisiJaya1!\",\r\n    \"role\": \"Admin\",\r\n    \"nama\": \"Agung\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8080/api/users/create"
+					},
+					"response": []
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"user\",\r\n    \"password\": \"UserHelp1#\",\r\n    \"role\": \"User\",\r\n    \"nama\": \"Mang Udin\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8080/api/users/update/USR0002"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete user",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "localhost:8080/api/users/delete/USR0002"
+					},
+					"response": []
+				},
+				{
+					"name": "Auth User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"Teknisi1\",\r\n    \"password\" : \"Teknisi12!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8080/api/users/auth"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tiket",
+			"item": [
+				{
+					"name": "Get Tiket",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/tiket?idUser=USR0004&limit=1",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"tiket"
+							],
+							"query": [
+								{
+									"key": "idTiket",
+									"value": "6586b81e-75b6-4da8-bd30-da79bee62e18",
+									"disabled": true
+								},
+								{
+									"key": "status",
+									"value": "In Action",
+									"disabled": true
+								},
+								{
+									"key": "idUser",
+									"value": "USR0004"
+								},
+								{
+									"key": "search",
+									"value": "a",
+									"disabled": true
+								},
+								{
+									"key": "createdDate",
+									"value": "2021-02-19",
+									"disabled": true
+								},
+								{
+									"key": "updatedDate",
+									"value": "2021-02-19",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Tiket",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"problemDesc\" : \"Tidak dapat membuka pintu\",\r\n    \"user\" : {\r\n        \"idUser\" : \"USR0003\"\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8080/api/tiket/create"
+					},
+					"response": []
+				},
+				{
+					"name": "Update data",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"problemDesc\": \"Tidak dapat membuka tutup botol\",\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8080/api/tiket/update/6586b81e-75b6-4da8-bd30-da79bee62e18"
+					},
+					"response": []
+				},
+				{
+					"name": "Change status",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\" : \"In Action\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8080/api/tiket/change-status/6586b81e-75b6-4da8-bd30-da79bee62e18"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Tiket",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": "localhost:8080/api/tiket/delete/6586b81e-75b6-4da8-bd30-da79bee62e18"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Penanganan",
+			"item": [
+				{
+					"name": "Get Penanganan",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": "localhost:8080/api/penanganan"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Penanganan",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"teknisi\": {\r\n        \"idTeknisi\": \"TKT0001\"\r\n    },\r\n    \"dataTiket\": [\r\n        {\r\n            \"idTiket\": \"TKT0002\"\r\n        },\r\n        {\r\n            \"idTiket\": \"TKT0003\"\r\n        },\r\n        {\r\n            \"idTiket\": \"e8e5fa0e-12eb-41ad-88ab-ef8c4f271fd3\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "localhost:8080/api/penanganan/create"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Teknisi",
+			"item": [
+				{
+					"name": "Get Teknisi",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8080/api/teknisi?idUser=f978bbfe-914e-4c70-96c6-fe9b760f3896",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"teknisi"
+							],
+							"query": [
+								{
+									"key": "idUser",
+									"value": "f978bbfe-914e-4c70-96c6-fe9b760f3896"
+								},
+								{
+									"key": "idTeknisi",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
