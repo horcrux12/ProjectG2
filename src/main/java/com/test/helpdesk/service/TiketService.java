@@ -8,6 +8,8 @@ import java.util.Map;
 public interface TiketService {
     List<Tiket> readData();
     List<Tiket> readDataByQuery(Map<Object, Object> params);
+    int countAllData();
+    int countAllDataQery(Map<Object, Object> params);
     Tiket findById(String id);
     void createData(Tiket tiket);
     void deleteDataById(Tiket tiket);

@@ -1,13 +1,22 @@
 package com.test.helpdesk.model;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Date;
 
 public class Penanganan {
     private String idPenanganan;
-    private ArrayList<Tiket> dataTiket = new ArrayList<>();
+    private Teknisi teknisi;
+    private Date createdDate;
+    private List<Tiket> dataTiket = new ArrayList<>();
 
-    public Penanganan(String idPenanganan, ArrayList<Tiket> dataTiket) {
+    public Penanganan(String idPenanganan,
+                      Teknisi teknisi,
+                      Date createdDate,
+                      List<Tiket> dataTiket) {
         this.idPenanganan = idPenanganan;
+        this.teknisi = teknisi;
+        this.createdDate = createdDate;
         this.dataTiket = dataTiket;
     }
 
@@ -22,11 +31,27 @@ public class Penanganan {
         this.idPenanganan = idPenanganan;
     }
 
-    public ArrayList<Tiket> getDataTiket() {
+    public Teknisi getTeknisi() {
+        return teknisi;
+    }
+
+    public void setTeknisi(Teknisi teknisi) {
+        this.teknisi = teknisi;
+    }
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public List<Tiket> getDataTiket() {
         return dataTiket;
     }
 
-    public void setDataTiket(ArrayList<Tiket> dataTiket) {
+    public void setDataTiket(List<Tiket> dataTiket) {
         this.dataTiket = dataTiket;
     }
 
@@ -34,7 +59,9 @@ public class Penanganan {
     public String toString() {
         return "Penanganan{" +
                 "idPenanganan='" + idPenanganan + '\'' +
-                ", dataTiket=" + dataTiket.toString() +
+                ", teknisi=" + teknisi.toString() +
+                ", createdDate=" + createdDate +
+                ", dataTiket=" + dataTiket +
                 '}';
     }
 }

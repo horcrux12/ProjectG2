@@ -8,6 +8,8 @@ import java.util.Map;
 public interface TiketRepository {
     List<Tiket> readData();
     List<Tiket> readDataByQuery(String query);
+    int countAllData();
+    int countAllDataQery(String query);
     Tiket findById(String id);
     void createData(Tiket tiket);
     void deleteDataById(Tiket tiket);

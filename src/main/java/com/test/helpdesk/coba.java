@@ -1,6 +1,11 @@
 package com.test.helpdesk;
 
-import java.util.TimeZone;
+import com.test.helpdesk.model.User;
+import com.test.helpdesk.util.DateConvert;
+
+//import java.sql.Date;
+import java.util.Date;
+import java.util.regex.Pattern;
 
 public class coba {
 
@@ -13,9 +18,17 @@ public class coba {
 //            String temp = new String("USR" + number );
 //            System.out.println(temp);
 //        }
-        String[] id = TimeZone.getAvailableIDs();
-        System.out.println(TimeZone.getTimeZone("Asia/Jakarta"));
-        System.out.println(new String("Teknisi").equals("Teknisi"));
+//        User user = new User();
+//        System.out.println(user == null);
+//        String[] id = TimeZone.getAvailableIDs();
+        System.out.println(Pattern.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[?!@#$%^&+=]).{8,}$", "Admins1!"));
+//        System.out.println(TimeZone.getTimeZone("Asia/Jakarta"));
+//        System.out.println(new String("Teknisi").equals("Teknisi"));
+//        Date date = Date.valueOf("2021-03-18");
+//        DateConvert dateConvert = new DateConvert();
+
+        Date date = new Date();
+        System.out.println(date);
 
     }
 }

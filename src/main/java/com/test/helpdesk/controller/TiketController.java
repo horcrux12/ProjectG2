@@ -5,16 +5,14 @@ import com.test.helpdesk.model.User;
 import com.test.helpdesk.repository.TiketRepository;
 import com.test.helpdesk.service.TiketService;
 import com.test.helpdesk.service.UserService;
+import com.test.helpdesk.util.CustomErrorType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/tiket")
@@ -27,21 +25,26 @@ public class TiketController {
     @GetMapping("")
     public ResponseEntity<?> getData(@RequestParam Map<Object, Object> params){
         List<Tiket> listTiket = new ArrayList<>();
+        Map<String, Object> output= new HashMap<>();
         if (params.isEmpty()){
             try{
                 listTiket = tiketService.readData();
-                return new ResponseEntity<>(listTiket, HttpStatus.OK);
+                output.put("jumlah", tiketService.countAllData());
+                output.put("data", listTiket);
+                return new ResponseEntity<>(output, HttpStatus.OK);
             } catch (DataAccessException e) {
                 e.printStackTrace();
-                return new ResponseEntity<>("Gagal mengambil data", HttpStatus.BAD_GATEWAY);
+                return new ResponseEntity<>(new CustomErrorType("Gagal mengambil data"), HttpStatus.BAD_GATEWAY);
             }
         }else{
             try{
                 listTiket = tiketService.readDataByQuery(params);
-                return new ResponseEntity<>(listTiket, HttpStatus.OK);
+                output.put("jumlah", tiketService.countAllDataQery(params));
+                output.put("data", listTiket);
+                return new ResponseEntity<>(output, HttpStatus.OK);
             } catch (DataAccessException e) {
                 System.out.println(e);
-                return new ResponseEntity<>("Gagal mengambil data", HttpStatus.BAD_GATEWAY);
+                return new ResponseEntity<>(new CustomErrorType("Gagal mengambil data"), HttpStatus.BAD_GATEWAY);
             }
         }
     }
@@ -49,7 +52,7 @@ public class TiketController {
     @PostMapping("/create")
     public ResponseEntity<?> createData(@RequestBody Tiket tiket){
         if (tiket.getProblemDesc().isBlank() || tiket.getUser().getIdUser().isBlank()){
-            return new ResponseEntity<>("Data tidak valid", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new CustomErrorType("Data tidak valid"), HttpStatus.BAD_REQUEST);
         }else{
             try{
                 User findUser = userService.findById(tiket.getUser().getIdUser());
@@ -58,16 +61,16 @@ public class TiketController {
                         tiket.setStatus("Pending");
                         tiket.setCreatedDate(new Date());
                         tiketService.createData(tiket);
-                        return new ResponseEntity<>("Berhasil menambahkan data", HttpStatus.CREATED);
+                        return new ResponseEntity<>(new CustomErrorType("Berhasil menambahkan data"), HttpStatus.CREATED);
                     }else{
-                        return new ResponseEntity<>("Tidak dapat membuat tiket", HttpStatus.UNAUTHORIZED);
+                        return new ResponseEntity<>(new CustomErrorType("Tidak dapat membuat tiket"), HttpStatus.UNAUTHORIZED);
                     }
                 }else{
-                    return new ResponseEntity<>("User dengan id = '"+tiket.getUser().getIdUser()+"' tidak tersedia", HttpStatus.NOT_FOUND);
+                    return new ResponseEntity<>(new CustomErrorType("User dengan id = '"+tiket.getUser().getIdUser()+"' tidak tersedia"), HttpStatus.NOT_FOUND);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                return new ResponseEntity<>("Gagal melakukan tambah data", HttpStatus.BAD_GATEWAY);
+                return new ResponseEntity<>(new CustomErrorType("Gagal melakukan tambah data"), HttpStatus.BAD_GATEWAY);
             }
         }
     }
@@ -78,19 +81,19 @@ public class TiketController {
             Tiket findTiket = tiketService.findById(id);
             if (findTiket != null){
                 if (tiket.getProblemDesc().isBlank()){
-                    return new ResponseEntity<>("Data tidak valid", HttpStatus.BAD_REQUEST);
+                    return new ResponseEntity<>(new CustomErrorType("Data tidak valid"), HttpStatus.BAD_REQUEST);
                 }else{
                     findTiket.setProblemDesc(tiket.getProblemDesc());
                     findTiket.setUpdatedDate(new Date());
                     tiketService.updateData(findTiket);
-                    return new ResponseEntity<>("Berhasil melakukan perubahan data", HttpStatus.OK);
+                    return new ResponseEntity<>(new CustomErrorType("Berhasil melakukan perubahan data"), HttpStatus.OK);
                 }
             }else {
-                return new ResponseEntity<>("Data dengan id = '"+id+"' tidak tersedia", HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(new CustomErrorType("Data dengan id = '"+id+"' tidak tersedia"), HttpStatus.NOT_FOUND);
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<>("Gagal melakukan perubahan data", HttpStatus.BAD_GATEWAY);
+            return new ResponseEntity<>(new CustomErrorType("Gagal melakukan perubahan data"), HttpStatus.BAD_GATEWAY);
         }
     }
 
@@ -100,20 +103,20 @@ public class TiketController {
             Tiket findTiket = tiketService.findById(id);
             if (findTiket != null){
                 if (tiket.getStatus().isBlank()){
-                    return new ResponseEntity<>("Data tidak valid", HttpStatus.BAD_REQUEST);
+                    return new ResponseEntity<>(new CustomErrorType("Data tidak valid"), HttpStatus.BAD_REQUEST);
                 }else{
 //                    if (tiket.getStatus().equals("Pending"))
                     findTiket.setStatus(tiket.getStatus());
                     findTiket.setUpdatedDate(new Date());
                     tiketService.updateData(findTiket);
-                    return new ResponseEntity<>("Berhasil mengubah status", HttpStatus.OK);
+                    return new ResponseEntity<>(new CustomErrorType("Berhasil mengubah status"), HttpStatus.OK);
                 }
             }else {
-                return new ResponseEntity<>("Data dengan id = '"+id+"' tidak tersedia", HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(new CustomErrorType("Data dengan id = '"+id+"' tidak tersedia"), HttpStatus.NOT_FOUND);
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<>("Gagal melakukan perubahan status", HttpStatus.BAD_GATEWAY);
+            return new ResponseEntity<>(new CustomErrorType("Gagal melakukan perubahan status"), HttpStatus.BAD_GATEWAY);
         }
     }
 
@@ -123,13 +126,13 @@ public class TiketController {
             Tiket findTiket = tiketService.findById(id);
             if (findTiket != null){
                 tiketService.deleteDataById(findTiket);
-                return new ResponseEntity<>("Berhasil menghapus data", HttpStatus.OK);
+                return new ResponseEntity<>(new CustomErrorType("Berhasil menghapus data"), HttpStatus.OK);
             }else {
-                return new ResponseEntity<>("Data dengan id = '"+id+"' tidak tersedia", HttpStatus.NOT_FOUND);
+                return new ResponseEntity<>(new CustomErrorType("Data dengan id = '"+id+"' tidak tersedia"), HttpStatus.NOT_FOUND);
             }
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<>("Gagal melakukan hapus data", HttpStatus.BAD_GATEWAY);
+            return new ResponseEntity<>(new CustomErrorType("Gagal melakukan hapus data"), HttpStatus.BAD_GATEWAY);
         }
     }
 }
